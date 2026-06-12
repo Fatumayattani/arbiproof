@@ -1,0 +1,10 @@
+node_modules/
+dist/
+out/
+cache/
+broadcast/
+contracts/lib/
+.env
+*.local
+.DS_Store
+*:Zone.Identifier

@@ -1,0 +1,18 @@
+{
+  "name": "arbiproof-agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "inscope": "tsx src/runInScope.ts",
+    "outofscope": "tsx src/runOutOfScope.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "viem": "^2.21.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}
