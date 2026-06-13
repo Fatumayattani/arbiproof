@@ -48,7 +48,7 @@ The verdict is the aggregate of the rows. Recompute it from the chain and you re
 
 ## Live demo
 
-Frontend: REPLACE_WITH_NETLIFY_URL
+Frontend: 
 
 Sample receipt to verify (loads as CLEARED):
 
