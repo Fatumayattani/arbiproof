@@ -278,3 +278,11 @@ body {
   .cert, .stamp { animation: none; }
   .stamp { opacity: 0.92; }
 }
+
+.hint {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--ink-faint);
+  text-align: center;
+  padding: 28px 0;
+}

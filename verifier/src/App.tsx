@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { ReceiptLookup } from "./components/ReceiptLookup.js";
 
-const DEMO_RECEIPT = "0x221cd2014c4f2bf3a2dfffcc15428cde0bcbd3383bfdf08c75beb29a5cbe3f17";
 
 function Logo() {
   return (
@@ -13,8 +12,8 @@ function Logo() {
 }
 
 export function App() {
-  const [receiptId, setReceiptId] = useState(DEMO_RECEIPT);
-  const [submitted, setSubmitted] = useState<string | null>(DEMO_RECEIPT);
+  const [receiptId, setReceiptId] = useState("");
+  const [submitted, setSubmitted] = useState<string | null>(null);
 
   return (
     <main className="wrap">
@@ -25,8 +24,7 @@ export function App() {
 
       <p className="lede">
         Proof that an autonomous agent stayed inside the authority it was granted.
-        Paste a receipt to audit <strong>what was permitted</strong> against{" "}
-        <strong>what the agent did</strong>.
+        Paste a receipt to audit what was permitted against what the agent did.
       </p>
 
       <div className="search">
@@ -38,6 +36,9 @@ export function App() {
         />
         <button onClick={() => setSubmitted(receiptId.trim())}>Verify</button>
       </div>
+      {!submitted && (
+        <p className="hint">Paste any ArbiProof receipt id to audit it against its onchain grant.</p>
+      )}
 
       {submitted && <ReceiptLookup receiptId={submitted as `0x${string}`} />}
 
