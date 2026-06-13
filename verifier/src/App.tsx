@@ -3,13 +3,11 @@ import { ReceiptLookup } from "./components/ReceiptLookup.js";
 
 const DEMO_RECEIPT = "0x221cd2014c4f2bf3a2dfffcc15428cde0bcbd3383bfdf08c75beb29a5cbe3f17";
 
-function Mark() {
-  // brackets are the granted scope, the check is the verified action inside it
+function Logo() {
   return (
-    <svg className="mark" width="38" height="32" viewBox="0 0 40 34" fill="none" aria-hidden="true">
-      <path d="M15 7H10V27H15" stroke="#16202e" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M25 7H30V27H25" stroke="#16202e" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M16 18L19.5 21.5L26 13" stroke="#15784a" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+    <svg width="46" height="46" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+      <path d="M24 3l18 6.4v11.3C42 33 34.4 42.6 24 47 13.6 42.6 6 33 6 20.7V9.4L24 3z" fill="#16202e" />
+      <path d="M15.5 24.5l6 6L33 17.5" stroke="#fff" strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -21,11 +19,8 @@ export function App() {
   return (
     <main className="wrap">
       <div className="topbar">
-        <div className="brand">
-          <Mark />
-          <h1 className="wordmark">ArbiProof</h1>
-        </div>
-        <span className="pill"><span className="dot" />Arbitrum Sepolia</span>
+        <Logo />
+        <h1 className="wordmark">ArbiProof</h1>
       </div>
 
       <p className="lede">
