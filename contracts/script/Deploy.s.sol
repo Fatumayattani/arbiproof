@@ -11,7 +11,7 @@ import {MockERC20} from "../src/MockERC20.sol";
 /// the agent and verifier env files.
 contract Deploy is Script {
     // TODO set these before deploying
-    address constant AGENT = address(0xA11CE);      // the agent wallet or smart account
+    address constant AGENT = address(0xA11CE);
     address constant RECIPIENT = address(0xB0B);    // the one allowlisted recipient
     uint256 constant MAX_AMOUNT = 100 ether;        // per call cap
 
