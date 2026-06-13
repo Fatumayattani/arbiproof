@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { ReceiptLookup } from "./components/ReceiptLookup.js";
 
+const DEMO_RECEIPT = "0x221cd2014c4f2bf3a2dfffcc15428cde0bcbd3383bfdf08c75beb29a5cbe3f17";
+
 export function App() {
-  const [receiptId, setReceiptId] = useState("");
-  const [submitted, setSubmitted] = useState<string | null>(null);
+  const [receiptId, setReceiptId] = useState(DEMO_RECEIPT);
+  const [submitted, setSubmitted] = useState<string | null>(DEMO_RECEIPT);
 
   return (
     <main style={{ maxWidth: 720, margin: "0 auto", padding: 24, fontFamily: "system-ui" }}>
