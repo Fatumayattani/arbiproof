@@ -11,8 +11,8 @@ import {MockERC20} from "../src/MockERC20.sol";
 /// the agent and verifier env files.
 contract Deploy is Script {
     // TODO set these before deploying
-    address constant AGENT = address(0xA11CE);
-    address constant RECIPIENT = address(0xB0B);    // the one allowlisted recipient
+    address constant AGENT = address(0x2787f5bE0aaf340f8d8381893635Cd2F666cAbb2);
+    address constant RECIPIENT = address(0x0c66578077E99D6c42fD68B9f50138eebA8F6FfE);    // the one allowlisted recipient
     uint256 constant MAX_AMOUNT = 100 ether;        // per call cap
 
     function run() external {
