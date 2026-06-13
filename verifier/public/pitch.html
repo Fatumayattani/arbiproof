@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ArbiProof · Pitch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --paper: #e9ecf1;
+  --card: #ffffff;
+  --ink: #16202e;
+  --ink-soft: #5b6877;
+  --ink-faint: #93a0af;
+  --line: #dce2ea;
+  --line-strong: #c3ccd7;
+  --accent: #1f5fd6;
+  --cleared: #15784a;
+  --cleared-bg: #e7f3ec;
+  --flagged: #bb352b;
+  --flagged-bg: #fae9e7;
+  --display: "Space Grotesk", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --body: "Inter", system-ui, sans-serif;
+}
+html, body { height: 100%; width: 100%; overflow: hidden; background: #0a0f16; font-family: var(--body); }
+
+.deck { width: 100vw; height: 100vh; position: relative; }
+
+.slide {
+  position: absolute; inset: 0;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(rgba(22,32,46,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(22,32,46,0.035) 1px, transparent 1px);
+  background-size: 32px 32px;
+  color: var(--ink);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.4s ease;
+  display: flex; flex-direction: column;
+  padding: 5.5vh 6vw;
+}
+.slide.active { opacity: 1; pointer-events: all; }
+
+/* running header */
+.head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 2.2vh; border-bottom: 1px solid var(--ink); flex-shrink: 0; }
+.head-l { display: flex; align-items: center; gap: 10px; }
+.head-mark { display: block; }
+.head-name { font-family: var(--display); font-weight: 700; font-size: 17px; letter-spacing: -0.3px; }
+.head-r { font-family: var(--mono); font-size: 11px; color: var(--ink-soft); letter-spacing: 1px; text-transform: uppercase; }
+
+.body { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 3vh 0; }
+
+.section-no { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: 2px; margin-bottom: 14px; }
+.section-label { font-family: var(--mono); font-size: 12px; color: var(--ink-faint); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 22px; }
+
+h1 { font-family: var(--display); font-weight: 700; letter-spacing: -1.5px; line-height: 1.04; }
+.headline { font-family: var(--display); font-weight: 700; font-size: clamp(30px, 5vw, 58px); letter-spacing: -1.5px; line-height: 1.05; max-width: 18ch; }
+.lead { font-size: clamp(16px, 1.7vw, 21px); line-height: 1.5; color: var(--ink-soft); max-width: 60ch; margin-top: 26px; }
+.lead strong { color: var(--ink); font-weight: 600; }
+
+/* foot of slide */
+.foot { font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint); letter-spacing: 0.5px; flex-shrink: 0; padding-top: 2vh; }
+
+/* cover */
+.cover-body { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.cover-eyebrow { font-family: var(--mono); font-size: 13px; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 30px; }
+.cover-brand { display: flex; align-items: center; gap: 16px; margin-bottom: 34px; }
+.cover-brand h1 { font-size: clamp(40px, 7vw, 92px); }
+.cover-line { font-family: var(--display); font-weight: 500; font-size: clamp(22px, 3.2vw, 40px); letter-spacing: -1px; line-height: 1.12; max-width: 22ch; color: var(--ink); }
+.cover-line .hl { color: var(--cleared); }
+.cover-meta { display: flex; align-items: center; gap: 16px; margin-top: 34px; font-family: var(--mono); font-size: 14px; }
+.cover-meta .cm-name { color: var(--ink); font-weight: 500; }
+.cover-meta .cm-url { color: var(--accent); text-decoration: none; }
+.cover-meta .cm-url:hover { text-decoration: underline; }
+
+/* three column meaning */
+.triptych { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 14px; }
+.tri { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 26px 22px; }
+.tri-k { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
+.tri-h { font-family: var(--display); font-weight: 600; font-size: 21px; margin-bottom: 8px; letter-spacing: -0.3px; }
+.tri-p { font-size: 14.5px; line-height: 1.5; color: var(--ink-soft); }
+.tri-no { font-family: var(--mono); font-size: 12px; color: var(--accent); margin-bottom: 16px; }
+
+/* flow diagram */
+.flow { display: flex; align-items: stretch; gap: 0; margin-top: 8px; }
+.flow-step { flex: 1; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 22px 18px; position: relative; }
+.flow-arrow { display: flex; align-items: center; padding: 0 10px; color: var(--ink-faint); font-size: 22px; }
+.flow-k { font-family: var(--mono); font-size: 10.5px; color: var(--accent); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px; }
+.flow-h { font-family: var(--display); font-weight: 600; font-size: 17px; margin-bottom: 7px; letter-spacing: -0.2px; }
+.flow-p { font-size: 13px; line-height: 1.45; color: var(--ink-soft); }
+
+/* certificate mock */
+.cert-wrap { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 40px; align-items: center; margin-top: 6px; }
+.cert {
+  position: relative; background: var(--card); border: 1px solid var(--line);
+  border-radius: 16px; padding: 24px 24px 20px; overflow: hidden;
+  box-shadow: 0 1px 2px rgba(22,32,46,0.04), 0 18px 44px -24px rgba(22,32,46,0.3);
+}
+.cert::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--cleared); }
+.cert-eyebrow { font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: 1.6px; text-transform: uppercase; color: var(--ink-faint); }
+.cert-id { font-family: var(--mono); font-size: 15px; font-weight: 600; margin: 3px 0 16px; }
+.stamp {
+  position: absolute; top: 18px; right: 16px; transform: rotate(-7deg);
+  border: 2.5px solid var(--cleared); color: var(--cleared); border-radius: 9px;
+  padding: 6px 12px 5px; font-family: var(--mono); font-weight: 700; font-size: 15px;
+  letter-spacing: 2px; background: var(--cleared-bg); box-shadow: inset 0 0 0 1.5px var(--cleared); opacity: 0.93;
+}
+.lrow { display: grid; grid-template-columns: 96px 1fr 1fr 20px; gap: 10px; align-items: center; padding: 10px 0; border-top: 1px solid var(--line); }
+.lrow.h { border-top: none; padding-top: 0; }
+.lrow.h span { font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-faint); }
+.lc-rule { font-family: var(--display); font-weight: 500; font-size: 13px; }
+.lc-mono { font-family: var(--mono); font-size: 12px; }
+.tick { color: var(--cleared); font-weight: 700; text-align: right; }
+.cert-cap { }
+.cert-cap .section-label { margin-bottom: 18px; }
+.cert-cap .headline { font-size: clamp(26px, 3.4vw, 40px); }
+.cert-cap .lead { font-size: 16px; margin-top: 18px; }
+
+/* shipped list */
+.ship { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 40px; margin-top: 6px; }
+.ship-item { display: flex; gap: 12px; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.ship-check { color: var(--cleared); font-weight: 700; font-family: var(--mono); flex-shrink: 0; }
+.ship-t { font-size: 15.5px; line-height: 1.45; }
+.ship-t b { font-family: var(--display); font-weight: 600; }
+.addrs { margin-top: 26px; font-family: var(--mono); font-size: 11.5px; color: var(--ink-soft); line-height: 1.9; }
+.addrs .k { color: var(--ink-faint); }
+
+/* simple list */
+.rows { margin-top: 8px; }
+.row2 { display: flex; gap: 18px; align-items: baseline; padding: 17px 0; border-bottom: 1px solid var(--line); }
+.row2-no { font-family: var(--mono); font-size: 13px; color: var(--accent); flex-shrink: 0; width: 34px; }
+.row2-h { font-family: var(--display); font-weight: 600; font-size: 19px; letter-spacing: -0.3px; width: 30%; flex-shrink: 0; }
+.row2-p { font-size: 15px; line-height: 1.45; color: var(--ink-soft); }
+
+/* close */
+.close-body { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+.close-line { font-family: var(--display); font-weight: 500; font-size: clamp(24px, 3.6vw, 46px); letter-spacing: -1px; line-height: 1.12; max-width: 20ch; margin: 28px 0 34px; }
+.close-line .hl { color: var(--cleared); }
+.links { font-family: var(--mono); font-size: 14px; line-height: 2; color: var(--ink-soft); }
+.links a { color: var(--accent); text-decoration: none; }
+.links .k { color: var(--ink-faint); display: inline-block; width: 90px; }
+
+/* nav */
+.nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 16px; z-index: 50; background: rgba(255,255,255,0.7); backdrop-filter: blur(8px); border: 1px solid var(--line); border-radius: 999px; padding: 6px 10px; }
+.navbtn { width: 34px; height: 34px; border-radius: 50%; border: none; background: var(--ink); color: #fff; font-size: 19px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s, transform 0.08s; padding-bottom: 2px; }
+.navbtn:hover { background: #0c1622; }
+.navbtn:active { transform: scale(0.94); }
+.counter { font-family: var(--mono); font-size: 12px; color: var(--ink-soft); min-width: 46px; text-align: center; }
+
+@media (max-width: 760px) {
+  .triptych, .ship, .cert-wrap { grid-template-columns: 1fr; }
+  .flow { flex-direction: column; }
+  .flow-arrow { transform: rotate(90deg); padding: 6px 0; }
+  .row2 { flex-wrap: wrap; }
+  .row2-h { width: auto; }
+}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <!-- 1 COVER -->
+  <section class="slide active">
+    <div class="head">
+      <div class="head-l">
+        <svg class="head-mark" width="22" height="22" viewBox="0 0 48 48" fill="none"><path d="M24 3l18 6.4v11.3C42 33 34.4 42.6 24 47 13.6 42.6 6 33 6 20.7V9.4L24 3z" fill="#16202e"/><path d="M15.5 24.5l6 6L33 17.5" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="head-name">ArbiProof</span>
+      </div>
+      <span class="head-r">Pitch</span>
+    </div>
+    <div class="cover-body">
+      <div class="cover-eyebrow">Arbitrum Open House London · Buildathon</div>
+      <div class="cover-brand">
+        <svg width="64" height="64" viewBox="0 0 48 48" fill="none"><path d="M24 3l18 6.4v11.3C42 33 34.4 42.6 24 47 13.6 42.6 6 33 6 20.7V9.4L24 3z" fill="#16202e"/><path d="M15.5 24.5l6 6L33 17.5" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h1>ArbiProof</h1>
+      </div>
+      <div class="cover-line">Onchain proof that an AI agent stayed within the authority it was granted, <span class="hl">on Arbitrum</span>.</div>
+      <div class="cover-meta">
+        <span class="cm-name">Fatuma Yattani</span>
+        <a class="cm-url" href="https://arbiproof.netlify.app/" target="_blank" rel="noreferrer">arbiproof.netlify.app</a>
+      </div>
+    </div>
+    <div class="foot">Best Agentic Project · Deployed on Arbitrum Sepolia</div>
+  </section>
+
+  <!-- 2 THE SHIFT -->
+  <section class="slide">
+    <div class="head">
+      <div class="head-l"><svg class="head-mark" width="22" height="22" viewBox="0 0 48 48" fill="none"><path d="M24 3l18 6.4v11.3C42 33 34.4 42.6 24 47 13.6 42.6 6 33 6 20.7V9.4L24 3z" fill="#16202e"/><path d="M15.5 24.5l6 6L33 17.5" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="head-name">ArbiProof</span></div>
+      <span class="head-r">The shift</span>
+    </div>
+    <div class="body">
+      <div class="section-no">01</div>
+      <div class="headline">Agents are getting wallets.</div>
+      <p class="lead">AI agents no longer just talk. They hold keys, sign transactions, and move value on their own. Software that acts without asking is already here, and it is reaching for money.</p>
+    </div>
+    <div class="foot">01 · The shift</div>
+  </section>
+
+  <!-- 3 THE PROBLEM -->
+  <section class="slide">
+    <div class="head">
+      <div class="head-l"><svg class="head-mark" width="22" height="22" viewBox="0 0 48 48" fill="none"><path d="M24 3l18 6.4v11.3C42 33 34.4 42.6 24 47 13.6 42.6 6 33 6 20.7V9.4L24 3z" fill="#16202e"/><path d="M15.5 24.5l6 6L33 17.5" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="head-name">ArbiProof</span></div>
+      <span class="head-r">The problem</span>
+    </div>
+    <div class="body">
+      <div class="section-no">02</div>
+      <div class="headline">A transaction shows what happened. Not whether it was allowed.</div>
+      <p class="lead">Onchain actions are already verifiable, signed and logged. The piece no one can show lives offchain: was the agent authorized to do this, and did the action match what it intended. That is the accountability gap.</p>
+    </div>
+    <div class="foot">02 · The problem</div>
+  </section>
+
+  <!-- 4 THE IDEA -->
+  <section class="slide">
+    <div class="head">
+      <div class="head-l"><svg class="head-mark" width="22" height="22" viewBox="0 0 48 48" fill="none"><path d="M24 3l18 6.4v11.3C42 33 34.4 42.6 24 47 13.6 42.6 6 33 6 20.7V9.4L24 3z" fill="#16202e"/><path d="M15.5 24.5l6 6L33 17.5" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="head-name">ArbiProof</span></div>
+      <span class="head-r">The idea</span>
+    </div>
+    <div class="body">
+      <div class="section-no">03</div>
+      <div class="section-label">Bind three things into one proof</div>
+      <div class="triptych">
+        <div class="tri"><div class="tri-no">01</div><div class="tri-k">Authorization</div><div class="tri-h">What it was granted</div><div class="tri-p">An onchain grant fixes the contract it may call, the recipient it may pay, and a per call cap.</div></div>
+        <div class="tri"><div class="tri-no">02</div><div class="tri-k">Intent</div><div class="tri-h">What it declared</div><div class="tri-p">Before acting, the agent declares its intent and commits its hash to the receipt.</div></div>
+        <div class="tri"><div class="tri-no">03</div><div class="tri-k">Transaction</div><div class="tri-h">What it did</div><div class="tri-p">The resulting transaction is bound in, so the action can be checked against the grant.</div></div>
+      </div>
+      <p class="lead">ArbiProof ties all three into a receipt anyone can audit.</p>
+    </div>
+    <div class="foot">03 · The idea</div>
+  </section>
+
+  <!-- 5 HOW IT WORKS -->
+  <section class="slide">
+    <div class="head">
+      <div class="head-l"><svg class="head-mark" width="22" height="22" viewBox="0 0 48 48" fill="none"><path d="M24 3l18 6.4v11.3C42 33 34.4 42.6 24 47 13.6 42.6 6 33 6 20.7V9.4L24 3z" fill="#16202e"/><path d="M15.5 24.5l6 6L33 17.5" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="head-name">ArbiProof</span></div>
+      <span class="head-r">How it works</span>
+    </div>
+    <div class="body">
+      <div class="section-no">04</div>
+      <div class="section-label">Grant to verdict, end to end</div>
+      <div class="flow">
+        <div class="flow-step"><div class="flow-k">Grant</div><div class="flow-h">Rules onchain</div><div class="flow-p">An authorizer registers what the agent may do: the target, the recipient, the cap.</div></div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-step"><div class="flow-k">Act</div><div class="flow-h">Inside the bound</div><div class="flow-p">The agent declares intent and executes. Anything out of scope reverts onchain.</div></div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-step"><div class="flow-k">Receipt</div><div class="flow-h">Anchored proof</div><div class="flow-p">It writes a receipt binding the grant, the intent, and the transaction hash.</div></div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-step"><div class="flow-k">Verify</div><div class="flow-h">Recomputed verdict</div><div class="flow-p">Anyone loads the receipt and the real transaction and checks it against the grant.</div></div>
+      </div>
+      <p class="lead">Three parts: <strong>contracts</strong> that hold the grants and enforce the bounds, an <strong>agent</strong> that acts and records, and a <strong>verifier</strong> that judges.</p>
+    </div>
+    <div class="foot">04 · How it works</div>
+  </section>
+
+  <!-- 6 THE VERDICT (signature) -->
+  <section class="slide">
+    <div class="head">
+      <div class="head-l"><svg class="head-mark" width="22" height="22" viewBox="0 0 48 48" fill="none"><path d="M24 3l18 6.4v11.3C42 33 34.4 42.6 24 47 13.6 42.6 6 33 6 20.7V9.4L24 3z" fill="#16202e"/><path d="M15.5 24.5l6 6L33 17.5" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="head-name">ArbiProof</span></div>
+      <span class="head-r">The verdict</span>
+    </div>
+    <div class="body">
+      <div class="cert-wrap">
+        <div class="cert">
+          <span class="stamp">CLEARED</span>
+          <div class="cert-eyebrow">Receipt</div>
+          <div class="cert-id">0x221c&hellip;3f17</div>
+          <div class="lrow h"><span>Rule</span><span>Authorized</span><span>Executed</span><span></span></div>
+          <div class="lrow"><span class="lc-rule">Target</span><span class="lc-mono">0x05be&hellip;0e99</span><span class="lc-mono">0x05be&hellip;0e99</span><span class="tick">&checkmark;</span></div>
+          <div class="lrow"><span class="lc-rule">Recipient</span><span class="lc-mono">0x0c66&hellip;6FfE</span><span class="lc-mono">0x0c66&hellip;6FfE</span><span class="tick">&checkmark;</span></div>
+          <div class="lrow"><span class="lc-rule">Amount</span><span class="lc-mono">&le; 100 APT</span><span class="lc-mono">50 APT</span><span class="tick">&checkmark;</span></div>
+        </div>
+        <div class="cert-cap">
+          <div class="section-no">05</div>
+          <div class="section-label">The verdict</div>
+          <div class="headline">The verdict is the audit, not a label.</div>
+          <p class="lead">Authorized against executed, row by row. Match every rule and the receipt is stamped <strong>CLEARED</strong>. Break one and it is <strong>FLAGGED</strong>.</p>
+        </div>
+      </div>
+    </div>
+    <div class="foot">05 · The verdict</div>
+  </section>
+
+  <!-- 7 TRUST MODEL -->
+  <section class="slide">
+    <div class="head">
+      <div class="head-l"><svg class="head-mark" width="22" height="22" viewBox="0 0 48 48" fill="none"><path d="M24 3l18 6.4v11.3C42 33 34.4 42.6 24 47 13.6 42.6 6 33 6 20.7V9.4L24 3z" fill="#16202e"/><path d="M15.5 24.5l6 6L33 17.5" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="head-name">ArbiProof</span></div>
+      <span class="head-r">Trust model</span>
+    </div>
+    <div class="body">
+      <div class="section-no">06</div>
+      <div class="headline">The agent's word is never trusted.</div>
+      <p class="lead">The verifier loads the real transaction from the chain and recomputes the verdict from scratch. A lying agent cannot fake a pass, because the proof is rebuilt from onchain facts. And out of scope actions revert before a receipt can ever exist.</p>
+    </div>
+    <div class="foot">06 · Trust model</div>
+  </section>
+
+  <!-- 8 SHIPPED -->
+  <section class="slide">
+    <div class="head">
+      <div class="head-l"><svg class="head-mark" width="22" height="22" viewBox="0 0 48 48" fill="none"><path d="M24 3l18 6.4v11.3C42 33 34.4 42.6 24 47 13.6 42.6 6 33 6 20.7V9.4L24 3z" fill="#16202e"/><path d="M15.5 24.5l6 6L33 17.5" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="head-name">ArbiProof</span></div>
+      <span class="head-r">Shipped</span>
+    </div>
+    <div class="body">
+      <div class="section-no">07</div>
+      <div class="headline" style="font-size:clamp(26px,3.6vw,42px);margin-bottom:24px;">Deployed and live on Arbitrum Sepolia.</div>
+      <div class="ship">
+        <div class="ship-item"><span class="ship-check">&checkmark;</span><div class="ship-t"><b>Contracts deployed.</b> ReceiptRegistry and BoundedAction, with the bound enforced onchain.</div></div>
+        <div class="ship-item"><span class="ship-check">&checkmark;</span><div class="ship-t"><b>Agent working both ways.</b> An authorized run anchors a receipt, an out of scope run is blocked.</div></div>
+        <div class="ship-item"><span class="ship-check">&checkmark;</span><div class="ship-t"><b>Verifier live.</b> A frontend on Netlify that audits any receipt into a CLEARED or FLAGGED verdict.</div></div>
+        <div class="ship-item"><span class="ship-check">&checkmark;</span><div class="ship-t"><b>Open to all.</b> Anyone can paste a receipt id and audit it against its onchain grant.</div></div>
+      </div>
+      <div class="addrs">
+        <span class="k">registry</span> 0x7C5f4b0862aeE3AE6496bC6FF67a72234d10148a<br/>
+        <span class="k">action</span>&nbsp;&nbsp; 0x05be5dc8F5c618f81310E5DcD96FFAE46f970e99
+      </div>
+    </div>
+    <div class="foot">07 · Shipped</div>
+  </section>
+
+  <!-- 9 WHERE IT GOES -->
+  <section class="slide">
+    <div class="head">
+      <div class="head-l"><svg class="head-mark" width="22" height="22" viewBox="0 0 48 48" fill="none"><path d="M24 3l18 6.4v11.3C42 33 34.4 42.6 24 47 13.6 42.6 6 33 6 20.7V9.4L24 3z" fill="#16202e"/><path d="M15.5 24.5l6 6L33 17.5" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="head-name">ArbiProof</span></div>
+      <span class="head-r">Where it goes</span>
+    </div>
+    <div class="body">
+      <div class="section-no">08</div>
+      <div class="section-label">Every place an agent touches money</div>
+      <div class="rows">
+        <div class="row2"><span class="row2-no">01</span><span class="row2-h">Agent platforms</span><span class="row2-p">Any platform handing agents a wallet needs to prove those agents stayed in bounds.</span></div>
+        <div class="row2"><span class="row2-no">02</span><span class="row2-h">DeFi automation</span><span class="row2-p">Agents that rebalance, route, and execute strategies, audited against the mandate they were given.</span></div>
+        <div class="row2"><span class="row2-no">03</span><span class="row2-h">Treasuries</span><span class="row2-p">A DAO or company delegating spend to an agent can prove every move stayed inside policy.</span></div>
+        <div class="row2"><span class="row2-no">04</span><span class="row2-h">Agentic payments</span><span class="row2-p">Machine to machine commerce where each side needs a receipt it can verify, not trust.</span></div>
+      </div>
+    </div>
+    <div class="foot">08 · Where it goes</div>
+  </section>
+
+  <!-- 10 ROADMAP -->
+  <section class="slide">
+    <div class="head">
+      <div class="head-l"><svg class="head-mark" width="22" height="22" viewBox="0 0 48 48" fill="none"><path d="M24 3l18 6.4v11.3C42 33 34.4 42.6 24 47 13.6 42.6 6 33 6 20.7V9.4L24 3z" fill="#16202e"/><path d="M15.5 24.5l6 6L33 17.5" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="head-name">ArbiProof</span></div>
+      <span class="head-r">Roadmap</span>
+    </div>
+    <div class="body">
+      <div class="section-no">09</div>
+      <div class="section-label">From demo to standard</div>
+      <div class="rows">
+        <div class="row2"><span class="row2-no">01</span><span class="row2-h">SDK</span><span class="row2-p">Wrap any agent action in a grant and emit a receipt in one call, for any framework.</span></div>
+        <div class="row2"><span class="row2-no">02</span><span class="row2-h">Session keys</span><span class="row2-p">Enforce the bound at the key level as well as the contract level it lives at today.</span></div>
+        <div class="row2"><span class="row2-no">03</span><span class="row2-h">Richer policies</span><span class="row2-p">Time windows, rate limits, multi step mandates, beyond a single target and cap.</span></div>
+        <div class="row2"><span class="row2-no">04</span><span class="row2-h">Stronger evidence</span><span class="row2-p">Attested execution for the offchain decision, so intent itself becomes provable.</span></div>
+      </div>
+      <p class="lead">The goal is a standard accountability layer for agents that transact on Arbitrum.</p>
+    </div>
+    <div class="foot">09 · Roadmap</div>
+  </section>
+
+  <!-- 11 CLOSE -->
+  <section class="slide">
+    <div class="head">
+      <div class="head-l"><svg class="head-mark" width="22" height="22" viewBox="0 0 48 48" fill="none"><path d="M24 3l18 6.4v11.3C42 33 34.4 42.6 24 47 13.6 42.6 6 33 6 20.7V9.4L24 3z" fill="#16202e"/><path d="M15.5 24.5l6 6L33 17.5" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="head-name">ArbiProof</span></div>
+      <span class="head-r">Close</span>
+    </div>
+    <div class="close-body">
+      <svg width="60" height="60" viewBox="0 0 48 48" fill="none"><path d="M24 3l18 6.4v11.3C42 33 34.4 42.6 24 47 13.6 42.6 6 33 6 20.7V9.4L24 3z" fill="#16202e"/><path d="M15.5 24.5l6 6L33 17.5" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="close-line">Onchain proof that an AI agent stayed within the authority it was granted, <span class="hl">on Arbitrum</span>.</div>
+      <div class="links">
+        <span class="k">demo</span> <a href="https://arbiproof.netlify.app/" target="_blank" rel="noreferrer">arbiproof.netlify.app</a><br/>
+        <span class="k">code</span> <a href="https://github.com/Fatumayattani/arbiproof">github.com/Fatumayattani/arbiproof</a><br/>
+        <span class="k">built by</span> Fatuma Yattani
+      </div>
+    </div>
+    <div class="foot">ArbiProof · Arbitrum Open House London Buildathon</div>
+  </section>
+
+</div>
+
+<div class="nav">
+  <button class="navbtn" id="prev" aria-label="Previous slide">&#8249;</button>
+  <span class="counter" id="counter">1 / 11</span>
+  <button class="navbtn" id="next" aria-label="Next slide">&#8250;</button>
+</div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const counter = document.getElementById('counter');
+  let i = 0;
+  function go(n) {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, k) => s.classList.toggle('active', k === i));
+    counter.textContent = (i + 1) + ' / ' + slides.length;
+  }
+  document.getElementById('prev').onclick = (e) => { e.stopPropagation(); go(i - 1); };
+  document.getElementById('next').onclick = (e) => { e.stopPropagation(); go(i + 1); };
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); go(i + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(i - 1); }
+    if (e.key === 'Home') go(0);
+    if (e.key === 'End') go(slides.length - 1);
+  });
+  document.getElementById('deck').addEventListener('click', (e) => {
+    if (e.target.closest('a') || e.target.closest('.navbtn')) return;
+    go(i + 1);
+  });
+</script>
+</body>
+</html>
